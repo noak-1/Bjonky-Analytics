@@ -1,0 +1,46 @@
+{
+    "name": "noak/bjonky",
+    "description": "a small plugin, in a big world.",
+    "type": "craft-plugin",
+    "version": "1.0.0.",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "bjonky"
+    ],
+    "support": {
+        "docs": "https://github.com/https://github.com/nokia13/bjonky/blob/master/README.md",
+        "issues": "https://github.com/https://github.com/nokia13/bjonky/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Noak Salmgren",
+            "homepage": "https://github.com/nokia13"
+        }
+    ],
+  "require": {
+    "craftcms/cms": "^3.0.0-RC1",
+    "google/apiclient": "^2.0",
+    "gchartphp/gchartphp" : "0.6.7"
+  },
+    
+    "autoload": {
+        "psr-4": {
+          "noak\\bjonky\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "bjonky",
+        "handle": "bjonky",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/https://github.com/nokia13/bjonky/master/CHANGELOG.md",
+        "components": {
+            "bjonkyService": "noak\\bjonky\\services\\BjonkyService"
+        },
+        "class": "noak\\bjonky\\Bjonky"
+    }
+}

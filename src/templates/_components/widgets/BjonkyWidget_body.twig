@@ -1,0 +1,51 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * bjonky plugin for Craft CMS
+ *
+ * BjonkyWidget Widget Body
+ *
+ * @author    Noak Salmgren
+ * @copyright Copyright (c) 2020 Noak Salmgren
+ * @link      https://github.com/nokia13
+ * @package   Bjonky
+ * @since     1.0.0.
+ */
+#}
+
+	{% block widget %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Bjonky widget</title>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <style>
+                .wrapper {
+                    box-sizing: border-box;
+                    padding: 30px;
+                }
+
+                #top_device #top_pages #top_sessions {
+                    font-family: "Arial Black";
+                }
+            </style>
+        </head>
+        <body>
+
+        {% set iconUrl = view.getAssetManager().getPublishedUrl('@noak/bjonky/assetbundles/bjonkywidgetwidget/dist', true) ~ '/img/BjonkyWidget-icon.svg' %}
+
+        <div class="wrapper"> <!--<div id="chart_div" data-value="{{ rows | json_encode }}"></div>-->
+            <br><hr><br>
+
+            <div id="top_sessions" data-name="{{ profileName }}" data-value="{{ rows | json_encode }}"></div><br><hr><br>
+
+            <div id="top_device"  data-value="{{ deviceCategory | json_encode }}"></div><br><hr><br>
+
+            <div id="top_pages" data-value="{{ popularPage | json_encode }}"></div>
+        </div>
+
+        </body>
+        </html>
+
+    {% endblock %}

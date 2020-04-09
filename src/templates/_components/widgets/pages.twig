@@ -1,0 +1,53 @@
+<div id="top_pages" data-value="{{ popularPage | json_encode }}"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+        google.charts.load('current', {'packages': ['bar']});
+        google.charts.setOnLoadCallback(drawStuff);
+
+        var popularPage = document.getElementById('top_pages').getAttribute('data-value');
+        popularPage = JSON.parse(popularPage);
+        console.log(popularPage);
+        for (var i = 0; i < popularPage.length; i++) {
+
+            popularPage[i][1] = parseInt(popularPage[i][1]);
+
+        }
+        popularPage.unshift(['Gränssnitt', 14]);
+        popularPage.unshift(['Användare', 24]);
+        popularPage.unshift(['Kommunikation', 6]);
+        popularPage.unshift(['Responsivitet', 64]);
+        popularPage.unshift(['GUI', 84]);
+        popularPage.unshift(['Definitioner', 34]);
+        popularPage.unshift(['', '']);
+
+        console.log(popularPage);
+
+
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable(popularPage
+                /*[
+                            ['Move', 'Percentage'],
+                            ["King's pawn (e4)", 44],
+                            ["Queen's pawn (d4)", 31],
+                            ["Knight to King 3 (Nf3)", 12],
+                            ["Queen's bishop pawn (c4)", 10],
+                            ['Other', 3]
+                        ]*/
+            );
+
+            var options = {
+
+
+                chart: {
+                    title: 'Pages popularity',
+                    subtitle: 'Number of visits per page'
+                }
+
+
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('top_pages'));
+// Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+    </script>

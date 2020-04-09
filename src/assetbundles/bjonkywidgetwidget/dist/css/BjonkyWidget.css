@@ -1,0 +1,15 @@
+/**
+ * bjonky plugin for Craft CMS
+ *
+ * BjonkyWidget Widget CSS
+ *
+ * @author    Noak Salmgren
+ * @copyright Copyright (c) 2020 Noak Salmgren
+ * @link      https://github.com/nokia13
+ * @package   Bjonky
+ * @since     1.0.0.
+ */
+
+#top_pages{
+    min-width: 300px;
+}

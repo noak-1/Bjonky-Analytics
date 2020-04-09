@@ -1,0 +1,24 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * bjonky plugin for Craft CMS
+ *
+ * BjonkyUtility Utility Content
+ *
+ * @author    Noak Salmgren
+ * @copyright Copyright (c) 2020 Noak Salmgren
+ * @link      https://github.com/nokia13
+ * @package   Bjonky
+ * @since     1.0.0.
+ */
+#}
+
+<h1>BjonkyUtility</h1>
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@noak/bjonky/assetbundles/bjonkyutilityutility/dist', true) ~ '/img/BjonkyUtility-icon.svg' %}
+
+<img src="{{ iconUrl }}" height="64" width="64" />
+
+<p>Your Utility content goes here</p>
+
+<p>{{ someVar }}</p>

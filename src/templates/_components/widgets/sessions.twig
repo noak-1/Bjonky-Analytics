@@ -1,0 +1,45 @@
+<div id="top_sessions" data-name="{{ profileName }}" data-value="{{ rows | json_encode }}"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+
+    var rows = document.getElementById('top_sessions').getAttribute('data-value');
+    var profileName = document.getElementById('top_sessions').getAttribute('data-name');
+
+    rows = JSON.parse(rows);
+    var rowsDate = [];
+    console.log(rows);
+    for (var i = 1; i < rows.length; i++) {
+
+        rows[i][1] = parseInt(rows[i][1]);
+        rows[i][2] = parseInt(rows[i][2]);
+        rowsDate[i] = rows[i][0];
+        rows[i][0] = `${rows[i][0].substring(4, 6)}/${rows[i][0].substring(6, 8)}`;
+    }
+
+    console.log(rowsDate);
+
+    if (rowsDate) {
+        var last = `${rowsDate[rowsDate.length - 1].substring(0, 4)}-${rowsDate[rowsDate.length - 1].substring(4, 6)}-${rowsDate[rowsDate.length - 1].substring(6, 8)} `;
+        var first = `${rowsDate[1].substring(0, 4)}-${rowsDate[1].substring(4, 6)}-${rowsDate[1].substring(6, 8)}`;
+        span = `For period ${first}  -  ${last}`
+    }
+
+    google.charts.load('current', {'packages': ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(rows);
+
+        var options = {
+            chart: {
+                title: profileName,
+                subtitle: span
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('top_sessions'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
+
+</script>
