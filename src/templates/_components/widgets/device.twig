@@ -1,4 +1,6 @@
 <div id="top_device"  data-value="{{ deviceCategory | json_encode }}"></div>
+
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
     google.charts.load('current', {'packages': ['corechart']});
@@ -29,7 +31,14 @@
         );
 
         var options = {
-            title: 'Device usage'
+            title: 'Device usage',
+            titleTextStyle: {
+                color: "#757575",
+                fontName: "Roboto",
+                fontSize: 14,
+                bold: false,
+                italic: false
+            }
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('top_device'));

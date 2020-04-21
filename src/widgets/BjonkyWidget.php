@@ -97,7 +97,7 @@ class BjonkyWidget extends Widget
             $rules,
             [
                 ['message', 'integer'],
-                ['message', 'default', 'value' => 5],
+                ['message', 'default', 'value' => 7],
             ]
         );
         return $rules;
@@ -219,7 +219,6 @@ class BjonkyWidget extends Widget
     {
         Craft::$app->getView()->registerAssetBundle(BjonkyWidgetWidgetAsset::class);
 
-
         $googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
         //$spd = Bjonky::$plugin->bjonkyService->getSessionsPerDay($this->numberOfDays);
         $dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
@@ -232,6 +231,7 @@ class BjonkyWidget extends Widget
 
        //echo '<pre>'; print_r($this->numberOfDays); exit;
         $this->graphType;
+
 
         return Craft::$app->getView()->renderTemplate(
             'bjonky/_components/widgets/'.$this->graphType,

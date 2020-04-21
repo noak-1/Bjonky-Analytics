@@ -53,13 +53,15 @@ class BjonkyWidgetWidgetAsset extends AssetBundle
 
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
+
+        /* for assets
         $this->js = [
 
             'js/top_sessions.js',
             'js/device_usage.js',
             'js/top_pages.js'
         ];
-
+        */
         $this->css = [
             'css/BjonkyWidget.css',
         ];

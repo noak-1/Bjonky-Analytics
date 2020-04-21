@@ -65,6 +65,34 @@ class DefaultController extends Controller
     }
 
     /**
+     * Handle a request going to our plugin's index action URL,
+     * e.g.: actions/bjonky/default/sessions
+     *
+     * @return mixed
+     */
+    public function actionSessions()
+    {
+        $googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
+        //$spd = Bjonky::$plugin->bjonkyService->getSessionsPerDay($this->numberOfDays);
+        $dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
+        $pp = Bjonky::$plugin->bjonkyService->getPageMetrics($this->numberOfDays);
+        $newRows = Bjonky::$plugin->bjonkyService->getTopSessions($this->numberOfDays);
+
+        $sessions = $googleData->totalsForAllResults['ga:sessions'];
+        $profileName = $googleData->profileInfo['profileName'];
+        $rows = $googleData->rows;
+
+
+
+        // returnera nåt sånt här = json_encode($rows);
+
+        $result = json_encode($rows);
+        //echo '<pre>'; print_r($result); exit;
+        return $result;
+    }
+
+
+    /**
      * Handle a request going to our plugin's actionDoSomething URL,
      * e.g.: actions/bjonky/default/do-something
      *

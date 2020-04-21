@@ -10,6 +10,7 @@
  * @since     1.0.0.
  */
 
-#top_pages{
-    min-width: 300px;
+#top_device, #top_pages, #top_sessions{
+    /* border: 10px solid red; */
+    overflow: hidden;
 }

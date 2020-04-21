@@ -146,7 +146,7 @@ class BjonkyService extends Component
         );
 
         $rows = $sessions->rows;
-        $newRows = [['datum', 'sessions', 'bounces']];
+        $newRows = [['', 'sessions', 'bounces']];
         foreach($rows as $row) {
             $newRows[] = [$row[0], $row[4], $row[7]];
         }
