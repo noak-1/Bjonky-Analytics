@@ -1,43 +1,86 @@
-<!-- Datan skall inte komma från diven som i sin tur får datan från BjonkyWidget, utan det skall komma från controllern -->
-<button id="button">Refresh</button>
-<div id="top_sessions" data-name="{{ profileName }}" data-value="{{ rows | json_encode }}"></div>
+<div id="top_sessions" data-name="sessions"></div>
 
+<button id="button">Refresh</button>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-
     <script>
-        /*gör här ett ajaxanrop till metoden i actioncontrollern i defaultcontroller.php*/
+
         document.getElementById('button').addEventListener('click', refreshWidget)
-
         function refreshWidget () {
-            var data = {
-                action: 'actions/bjonky/default/sessions',
-                siteId: {{ currentSite.id }}
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/actions/bjonky/default/sessions?numberOfDays={{ numberOfDays }}');
+            //xhr.responseType = 'json';
+            xhr.send();
+            xhr.onprogress = function () {
+                console.log('READYSTATE: ', xhr.readyState)
             }
 
-            var ajaxobjekt = new XMLHttpRequest();
-
-            //var url = actionSessions();
-
-            ajaxobjekt.open('GET', "", data, true);
-            ajaxobjekt.onload = function(){
+            xhr.onload = function() {
                 if(this.status == 200){
-                    console.log('HALLÅ');
-                }
-            }
-            ajaxobjekt.send();
-        }
 
+                    var rows = xhr.response;
+
+
+                    google.charts.load('current', {'packages': ['bar']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+
+
+                    var profileName = document.getElementById('top_sessions').getAttribute('data-name');
+                    rows = JSON.parse(rows);
+                    console.log(rows);
+
+                    var rowsDate = [];
+
+                    for (var i = 1; i < rows.length; i++) {
+
+                        rows[i][1] = parseInt(rows[i][1]);
+                        rows[i][2] = parseInt(rows[i][2]);
+                        rowsDate[i] = rows[i][0];
+                        rows[i][0] = `${rows[i][0].substring(4, 6)}/${rows[i][0].substring(6, 8)}`;
+                    }
+
+                    if (rowsDate) {
+                        var last = `${rowsDate[rowsDate.length - 1].substring(0, 4)}-${rowsDate[rowsDate.length - 1].substring(4, 6)}-${rowsDate[rowsDate.length - 1].substring(6, 8)} `;
+                        var first = `${rowsDate[1].substring(0, 4)}-${rowsDate[1].substring(4, 6)}-${rowsDate[1].substring(6, 8)}`;
+                        span = `For period ${first}  -  ${last}`
+                    }
+
+                    function drawChart() {
+                        var data = google.visualization.arrayToDataTable(rows);
+
+                        var options = {
+                            chart: {
+                                title: profileName,
+                                subtitle: span
+                            }
+                        };
+
+                        var chart = new google.charts.Bar(document.getElementById('top_sessions'));
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                };
+            }
+        }
+        refreshWidget();
+    </script>
+
+
+<!--
+<script>
 
     google.charts.load('current', {'packages': ['bar']});
     google.charts.setOnLoadCallback(drawChart);
+   // console.log(rows);
 
-    var rows = document.getElementById('top_sessions').getAttribute('data-value');
-    var profileName = document.getElementById('top_sessions').getAttribute('data-name');
-
-    rows = JSON.parse(rows);
-    var rowsDate = [];
     console.log(rows);
+    var profileName = document.getElementById('top_sessions').getAttribute('data-name');
+    //rows = JSON.parse(rows);
+
+
+    var rowsDate = [];
+
     for (var i = 1; i < rows.length; i++) {
 
         rows[i][1] = parseInt(rows[i][1]);
@@ -46,15 +89,13 @@
         rows[i][0] = `${rows[i][0].substring(4, 6)}/${rows[i][0].substring(6, 8)}`;
     }
 
-    console.log(rowsDate);
+
 
     if (rowsDate) {
         var last = `${rowsDate[rowsDate.length - 1].substring(0, 4)}-${rowsDate[rowsDate.length - 1].substring(4, 6)}-${rowsDate[rowsDate.length - 1].substring(6, 8)} `;
         var first = `${rowsDate[1].substring(0, 4)}-${rowsDate[1].substring(4, 6)}-${rowsDate[1].substring(6, 8)}`;
         span = `For period ${first}  -  ${last}`
     }
-
-
 
     function drawChart() {
         var data = google.visualization.arrayToDataTable(rows);
@@ -70,6 +111,3 @@
         chart.draw(data, google.charts.Bar.convertOptions(options));
     }
 </script>
-
-
-

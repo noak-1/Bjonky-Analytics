@@ -9,11 +9,12 @@
  */
 
 namespace noak\bjonky\controllers;
-require_once '../../vendor/autoload.php';
+//require_once '../../vendor/autoload.php';
 use noak\bjonky\Bjonky;
 
 use Craft;
 use craft\web\Controller;
+use yii\helpers\Console;
 
 /**
  * Default Controller
@@ -64,6 +65,41 @@ class DefaultController extends Controller
         return $result;
     }
 
+
+    public function actionDevices()
+    {
+        $cache = Craft::$app->getCache()->get('cacheDevices');
+
+        if (!$cache){
+            //var_dump($cache);
+            $numberOfDays = Craft::$app->getRequest()->getParam('numberOfDays');
+            $cache = Bjonky::$plugin->bjonkyService->getDeviceMetrics($numberOfDays);
+            $cache = json_encode($cache);
+            Craft::$app->getCache()->set('cacheDevices', $cache, 60, null);
+        }
+
+        return $cache;
+    }
+    /**
+     * Handle a request going to our plugin's index action URL,
+     * e.g.: actions/bjonky/default/pages
+     *
+     * @return mixed
+     */
+    public function actionPages()
+    {
+        $cache = Craft::$app->getCache()->get('cachePages');
+
+        if (!$cache){
+            //var_dump($cache);
+            $numberOfDays = Craft::$app->getRequest()->getParam('numberOfDays');
+            $cache = Bjonky::$plugin->bjonkyService->getPageMetrics($numberOfDays);
+            $cache = json_encode($cache);
+            Craft::$app->getCache()->set('cachePages', $cache, 3600, null);
+        }
+
+        return $cache;
+    }
     /**
      * Handle a request going to our plugin's index action URL,
      * e.g.: actions/bjonky/default/sessions
@@ -72,25 +108,17 @@ class DefaultController extends Controller
      */
     public function actionSessions()
     {
-        $googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
-        //$spd = Bjonky::$plugin->bjonkyService->getSessionsPerDay($this->numberOfDays);
-        $dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
-        $pp = Bjonky::$plugin->bjonkyService->getPageMetrics($this->numberOfDays);
-        $newRows = Bjonky::$plugin->bjonkyService->getTopSessions($this->numberOfDays);
+        $cache = Craft::$app->getCache()->get('cashKey');
 
-        $sessions = $googleData->totalsForAllResults['ga:sessions'];
-        $profileName = $googleData->profileInfo['profileName'];
-        $rows = $googleData->rows;
-
-
-
-        // returnera nåt sånt här = json_encode($rows);
-
-        $result = json_encode($rows);
-        //echo '<pre>'; print_r($result); exit;
-        return $result;
+        if (!$cache){
+            //var_dump($cache);
+            $numberOfDays = Craft::$app->getRequest()->getParam('numberOfDays');
+            $cache = Bjonky::$plugin->bjonkyService->getTopSessions($numberOfDays);
+            $cache = json_encode($cache);
+            Craft::$app->getCache()->set('cashKey', $cache, 3600, null);
+        }
+        return $cache;
     }
-
 
     /**
      * Handle a request going to our plugin's actionDoSomething URL,

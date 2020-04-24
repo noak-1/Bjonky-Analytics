@@ -40,7 +40,7 @@ class BjonkyWidget extends Widget
      * @var string The message to display
      */
     public $message = '0';
-    public $numberOfDays = 5;
+    public $numberOfDays = 7;
     public $graphType = '';
 
     // Static Methods
@@ -217,34 +217,37 @@ class BjonkyWidget extends Widget
      */
     public function getBodyHtml()
     {
+
         Craft::$app->getView()->registerAssetBundle(BjonkyWidgetWidgetAsset::class);
 
-        $googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
+        //$googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
         //$spd = Bjonky::$plugin->bjonkyService->getSessionsPerDay($this->numberOfDays);
-        $dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
-        $pp = Bjonky::$plugin->bjonkyService->getPageMetrics($this->numberOfDays);
-        $newRows = Bjonky::$plugin->bjonkyService->getTopSessions($this->numberOfDays);
+        //$dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
+        //$pp = Bjonky::$plugin->bjonkyService->getPageMetrics($this->numberOfDays);
+        //$newRows = Bjonky::$plugin->bjonkyService->getTopSessions($this->numberOfDays);
 
-        $sessions = $googleData->totalsForAllResults['ga:sessions'];
-        $profileName = $googleData->profileInfo['profileName'];
-        $rows = $googleData->rows;
+        //$sessions = $googleData->totalsForAllResults['ga:sessions'];
+        //$profileName = $googleData->profileInfo['profileName'];
+        //$rows = $googleData->rows;
+        //echo '<pre>'; print_r($sessions); exit;
 
-       //echo '<pre>'; print_r($this->numberOfDays); exit;
         $this->graphType;
+
 
 
         return Craft::$app->getView()->renderTemplate(
             'bjonky/_components/widgets/'.$this->graphType,
             [
 
-                'sessions' => $sessions,
-                'message' => $this->numberOfDays,
+
+                'numberOfDays' => $this->numberOfDays,
+                //'sessions' => $sessions,
                 //'sessionsPerDay' => $spd,
-                'rows' => $newRows,
-                'tableRows' => $rows,
-                'profileName' => $profileName,
-                'deviceCategory' =>$dc,
-                'popularPage' => $pp
+                //'rows' => $newRows,
+                //'tableRows' => $rows,
+                //'profileName' => $profileName,
+                //'deviceCategory' =>$dc,
+                //'popularPage' => $pp
             ]
         );
     }

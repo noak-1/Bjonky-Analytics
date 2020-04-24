@@ -126,7 +126,10 @@ class BjonkyService extends Component
         return $sessions;
     }
 
-        function getTopSessions($days)
+
+
+
+    function getTopSessions($days)
     {
         $analytics = $this->initializeAnalytics();
         $profileId = $this->getFirstProfileId($analytics);
@@ -154,7 +157,7 @@ class BjonkyService extends Component
         return $newRows;
     }
 
-        public function getDeviceMetrics($days)
+    public function getDeviceMetrics($days)
         {
             {
                 if (!is_numeric($days)) {
@@ -204,6 +207,8 @@ class BjonkyService extends Component
             );
             return $result->rows;
         }
+
+
 
         /*
           public function getSessionsPerDay($days)
