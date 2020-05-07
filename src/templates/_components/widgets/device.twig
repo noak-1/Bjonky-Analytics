@@ -1,47 +1,73 @@
-<div id="top_device"  data-value="{{ deviceCategory | json_encode }}"></div>
-
+<div id="top_device" data-name="{{ profileName }}"></div>
+<br>
+<input type="button" id="refresh-devices" value="Refresh"></input>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    google.charts.load('current', {'packages': ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
 
-    var deviceCategory = document.getElementById('top_device').getAttribute('data-value');
-    deviceCategory = JSON.parse(deviceCategory);
+    document.getElementById('refresh-devices').addEventListener('click', refreshWidgetPages)
+    function refreshWidgetPages(){
 
-    for (var i = 0; i < deviceCategory.length; i++) {
-        deviceCategory[i][1] = parseInt(deviceCategory[i][1]);
-    }
+        let xhrpages = new XMLHttpRequest();
+        xhrpages.open('GET', '/actions/bjonky/default/devices?numberOfDays={{ numberOfDays }}');
+        //xhr.responseType = 'json';
+        xhrpages.send();
+        xhrpages.onprogress = function () {
+            console.log('READYSTATE: ', xhrpages.readyState)
+        }
+        xhrpages.onload = function() {
+            if(this.status == 200) {
 
-    deviceCategory.unshift(['rubrik1', 'rubrik2']);
-    console.log('hej!', deviceCategory);
+                var devices = xhrpages.response;
 
-    function drawChart() {
+                google.charts.load('current', {'packages': ['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+                var deviceCategory = JSON.parse(devices);
+                var profileName = document.getElementById('top_device').getAttribute('data-name');
 
-        var data = google.visualization.arrayToDataTable(deviceCategory
+                for (var i = 0; i < deviceCategory.length; i++) {
+                    deviceCategory[i][1] = parseInt(deviceCategory[i][1]);
+                }
 
-            /*[
-                        ['Task', 'Hours per Day'],
-                        ['Work',     11],
-                        ['Eat',      2],
-                        ['Commute',  2],
-                        ['Watch TV', 2],
-                        ['Sleep',    7]
-                    ]*/
-        );
+                deviceCategory.unshift(['rubrik1', 'rubrik2']);
+                console.log('hej!', deviceCategory);
 
-        var options = {
-            title: 'Device usage',
-            titleTextStyle: {
-                color: "#757575",
-                fontName: "Roboto",
-                fontSize: 14,
-                bold: false,
-                italic: false
+                function drawChart() {
+
+                    var data = google.visualization.arrayToDataTable(deviceCategory
+
+                        /*[
+                                    ['Task', 'Hours per Day'],
+                                    ['Work',     11],
+                                    ['Eat',      2],
+                                    ['Commute',  2],
+                                    ['Watch TV', 2],
+                                    ['Sleep',    7]
+                                ]*/
+                    );
+
+                    var options = {
+                        title: 'Device usage for the last {{ numberOfDays }} days',
+                        subtitle:'${profileName}',
+                        titleTextStyle: {
+                            color: "#757575",
+                            fontName: "Roboto",
+                            fontSize: 14,
+                            bold: false,
+                            italic: false
+                        }
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('top_device'));
+
+                    chart.draw(data, options);
+                }
+
             }
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('top_device'));
-
-        chart.draw(data, options);
+        }
     }
+    refreshWidgetPages();
+
+
+
+
 </script>

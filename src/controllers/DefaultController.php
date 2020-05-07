@@ -95,7 +95,7 @@ class DefaultController extends Controller
             $numberOfDays = Craft::$app->getRequest()->getParam('numberOfDays');
             $cache = Bjonky::$plugin->bjonkyService->getPageMetrics($numberOfDays);
             $cache = json_encode($cache);
-            Craft::$app->getCache()->set('cachePages', $cache, 3600, null);
+            Craft::$app->getCache()->set('cachePages', $cache, 60, null);
         }
 
         return $cache;
@@ -115,7 +115,7 @@ class DefaultController extends Controller
             $numberOfDays = Craft::$app->getRequest()->getParam('numberOfDays');
             $cache = Bjonky::$plugin->bjonkyService->getTopSessions($numberOfDays);
             $cache = json_encode($cache);
-            Craft::$app->getCache()->set('cashKey', $cache, 3600, null);
+            Craft::$app->getCache()->set('cashKey', $cache, 60, null);
         }
         return $cache;
     }

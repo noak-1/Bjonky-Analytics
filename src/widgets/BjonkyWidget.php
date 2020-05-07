@@ -202,7 +202,6 @@ class BjonkyWidget extends Widget
             [
                 'widget' => $this
             ]
-
         );
     }
 
@@ -220,18 +219,18 @@ class BjonkyWidget extends Widget
 
         Craft::$app->getView()->registerAssetBundle(BjonkyWidgetWidgetAsset::class);
 
-        //$googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
+
         //$spd = Bjonky::$plugin->bjonkyService->getSessionsPerDay($this->numberOfDays);
         //$dc = Bjonky::$plugin->bjonkyService->getDeviceMetrics($this->numberOfDays);
         //$pp = Bjonky::$plugin->bjonkyService->getPageMetrics($this->numberOfDays);
         //$newRows = Bjonky::$plugin->bjonkyService->getTopSessions($this->numberOfDays);
-
         //$sessions = $googleData->totalsForAllResults['ga:sessions'];
-        //$profileName = $googleData->profileInfo['profileName'];
         //$rows = $googleData->rows;
         //echo '<pre>'; print_r($sessions); exit;
-
         $this->graphType;
+
+        $googleData = Bjonky::$plugin->bjonkyService->getSessions($this->numberOfDays);
+        $profileName = $googleData->profileInfo['profileName'];
 
 
 
@@ -245,7 +244,7 @@ class BjonkyWidget extends Widget
                 //'sessionsPerDay' => $spd,
                 //'rows' => $newRows,
                 //'tableRows' => $rows,
-                //'profileName' => $profileName,
+                'profileName' => $profileName,
                 //'deviceCategory' =>$dc,
                 //'popularPage' => $pp
             ]

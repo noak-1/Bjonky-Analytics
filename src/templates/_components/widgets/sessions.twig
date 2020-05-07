@@ -1,11 +1,10 @@
-<div id="top_sessions" data-name="sessions"></div>
-
-<button id="button">Refresh</button>
+<div id="top_sessions" data-name={{profileName}}></div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<br>
+<input type="button" id="refresh-sessions" value="Refresh"></input>
+<script>
 
-    <script>
-
-        document.getElementById('button').addEventListener('click', refreshWidget)
+        document.getElementById('refresh-sessions').addEventListener('click', refreshWidget)
         function refreshWidget () {
 
             let xhr = new XMLHttpRequest();
@@ -17,6 +16,10 @@
             }
 
             xhr.onload = function() {
+                if (this.readyState = 1){
+                //document.getElementById("top_sessions").innerHTML = "Hej";
+                    console.log('processar för fullt..');
+                }
                 if(this.status == 200){
 
                     var rows = xhr.response;
@@ -64,7 +67,7 @@
             }
         }
         refreshWidget();
-    </script>
+</script>
 
 
 <!--

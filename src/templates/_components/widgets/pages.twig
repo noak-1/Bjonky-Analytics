@@ -1,10 +1,11 @@
 <div id="top_pages"></div>
+<br>
+<input type="button" id="refresh-pages" value="Refresh"></input>
 
-<button id="button">Refresh</button>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 
-    document.getElementById('button').addEventListener('click', refreshWidgetPages)
+    document.getElementById('refresh-pages').addEventListener('click', refreshWidgetPages)
     function refreshWidgetPages(){
 
             let xhrpages = new XMLHttpRequest();
@@ -15,6 +16,7 @@
                 console.log('READYSTATE: ', xhrpages.readyState)
             }
             xhrpages.onload = function() {
+
                 if(this.status == 200) {
 
                     var popularPage = xhrpages.response;
@@ -26,9 +28,7 @@
                     //console.log(popularPage);
                     for (var i = 0; i < popularPage.length; i++) {
 
-                        popularPage[i][1] = parseInt(popularPage[i][1]);
-
-                    }
+                        popularPage[i][1] = parseInt(popularPage[i][1]);}
                     popularPage.unshift(['Gränssnitt', 14]);
                     popularPage.unshift(['Användare', 24]);
                     popularPage.unshift(['Kommunikation', 6]);
